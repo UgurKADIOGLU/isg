@@ -1,20 +1,21 @@
 package com.isg.ws.User;
 
+import com.isg.ws.shared.GenericMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/user")
-        public String test() {
-        return "User endpoint is working!";
+    GenericMessage cerateUser(@RequestBody User user) {
+        userService.saveUser(user);
+        return new GenericMessage("User created successfully");
     }
 }
 

@@ -15,15 +15,12 @@ function Index() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/users/user",
-        {
-          username,
-          email,
-          password,
-        }
-      );
-      console.log("Başarılı:", response.data);
+      const response = await axios.post("/api/users/user", {
+        username,
+        email,
+        password,
+      });
+      console.log("Başarılı:", response.data.message);
       // Başarı durumunda yapılacak işlemler
     } catch (error) {
       console.error("Hata:", error.response?.data || error.message);
@@ -33,39 +30,53 @@ function Index() {
 
   return (
     <>
-      <h1>Kayıt Ol</h1>
-      <form onSubmit={handleSubmit}>
-        <InputField
-          id="username"
-          label="İsim"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <InputField
-          id="email"
-          label="E-posta"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <InputField
-          id="password"
-          label="Şifre"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <InputField
-          id="passwordRepeat"
-          label="Şifreyi Tekrarlayınız"
-          type="password"
-          value={passwordRepeat}
-          onChange={(e) => setPasswordRepeat(e.target.value)}
-        />
-        <button type="submit" disabled={!isButtonEnabled}>
-          Kayıt Ol
-        </button>
-      </form>
+      <div className="container">
+        <div className="col-lg-6 offset-lg-3">
+          <form className="card" onSubmit={handleSubmit}>
+            <div className="text-center card-header">
+              <h1>Kayıt Ol</h1>
+            </div>
+            <div className="card-body">
+              <InputField
+                id="username"
+                label="İsim"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <InputField
+                id="email"
+                label="E-posta"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <InputField
+                id="password"
+                label="Şifre"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <InputField
+                id="passwordRepeat"
+                label="Şifreyi Tekrarlayınız"
+                type="password"
+                value={passwordRepeat}
+                onChange={(e) => setPasswordRepeat(e.target.value)}
+              />
+            </div>
+            <div className="text-center card-footer">
+              <button
+                type="submit"
+                disabled={!isButtonEnabled}
+                className="btn btn-primary"
+              >
+                Kayıt Ol
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

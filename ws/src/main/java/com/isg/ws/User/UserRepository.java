@@ -1,4 +1,6 @@
 package com.isg.ws.User;
 
-public class UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
 }

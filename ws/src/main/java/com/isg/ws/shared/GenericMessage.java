@@ -1,4 +1,4 @@
 package com.isg.ws.shared;
 
-public class GenericMessage {
+public record GenericMessage(String message) {
 }
