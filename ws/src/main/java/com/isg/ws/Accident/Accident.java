@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
 public class Accident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
