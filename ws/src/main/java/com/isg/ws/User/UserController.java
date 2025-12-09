@@ -15,7 +15,7 @@ public class UserController {
     @PostMapping("/user")
     GenericMessage cerateUser(@RequestBody User user) {
         userService.saveUser(user);
-        return new GenericMessage("User created successfully");
+        return new GenericMessage("Kullanıcı kaydı başarılı");
     }
 }
 

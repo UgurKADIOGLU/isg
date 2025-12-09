@@ -1,30 +1,38 @@
 import React, { useState } from "react";
-import axios from "axios";
 import InputField from "../../components/InputField/InputField";
+import Spinner from "../../components/Spinner";
+import Alert from "../../components/Alert";
+import { registerUser } from "./api";
 
 function Index() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [apiProgress, setApiProgress] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const isButtonEnabled =
-    password && passwordRepeat && password === passwordRepeat;
+    password && passwordRepeat && password === passwordRepeat && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiProgress(true);
+    setSuccessMessage("");
 
     try {
-      const response = await axios.post("/api/users/user", {
+      const response = await registerUser({
         username,
         email,
         password,
       });
-      console.log("Başarılı:", response.data.message);
+      setSuccessMessage(response.message);
       // Başarı durumunda yapılacak işlemler
     } catch (error) {
       console.error("Hata:", error.response?.data || error.message);
       // Hata durumunda yapılacak işlemler
+    } finally {
+      setApiProgress(false);
     }
   };
 
@@ -71,8 +79,13 @@ function Index() {
                 disabled={!isButtonEnabled}
                 className="btn btn-primary"
               >
-                Kayıt Ol
+                {apiProgress ? <Spinner text="Yükleniyor..." /> : "Kayıt Ol"}
               </button>
+              {successMessage && (
+                <div className="mt-3">
+                  <Alert message={successMessage} type="success" />
+                </div>
+              )}
             </div>
           </form>
         </div>
