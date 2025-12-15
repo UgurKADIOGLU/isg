@@ -21,8 +21,7 @@ function Index() {
 
   const fetchEmployees = async () => {};
 
-  const isButtonEnabled =
-    egitimAdi && egitmen && tarih && katilimcilar.length > 0 && !apiProgress;
+  const isButtonEnabled = egitimAdi && egitmen && tarih && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,11 +56,13 @@ function Index() {
     <>
       <div className="container">
         <div className="col-lg-8 offset-lg-2">
-          <form className="card" onSubmit={handleSubmit}>
-            <div className="text-center card-header">
-              <h1>Eğitim Ekle</h1>
+          <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
+            <div className="text-center card-header bg-primary text-white py-4">
+              <h1 className="mb-0">
+                <i className="bi bi-book me-2"></i>Eğitim Ekle
+              </h1>
             </div>
-            <div className="card-body">
+            <div className="card-body p-4">
               <InputField
                 id="egitimAdi"
                 label="Eğitim Adı"
@@ -109,11 +110,11 @@ function Index() {
                 </small>
               </div>
             </div>
-            <div className="text-center card-footer">
+            <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
                 disabled={!isButtonEnabled}
-                className="btn btn-primary"
+                className="btn btn-primary btn-lg px-5"
               >
                 {apiProgress ? <Spinner text="Ekleniyor..." /> : "Eğitimi Ekle"}
               </button>

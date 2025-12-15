@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const createTraining = async (trainingData) => {
-  const response = await axios.post("/trainings", trainingData);
+  const response = await axios.post("/api/trainings", trainingData);
   return response.data;
 };
 

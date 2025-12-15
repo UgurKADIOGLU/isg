@@ -40,11 +40,13 @@ function Index() {
     <>
       <div className="container">
         <div className="col-lg-6 offset-lg-3">
-          <form className="card" onSubmit={handleSubmit}>
-            <div className="text-center card-header">
-              <h1>Kayıt Ol</h1>
+          <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
+            <div className="text-center card-header bg-dark text-white py-4">
+              <h1 className="mb-0">
+                <i className="bi bi-person-add me-2"></i>Kayıt Ol
+              </h1>
             </div>
-            <div className="card-body">
+            <div className="card-body p-4">
               <InputField
                 id="username"
                 label="İsim"
@@ -73,11 +75,11 @@ function Index() {
                 onChange={(e) => setPasswordRepeat(e.target.value)}
               />
             </div>
-            <div className="text-center card-footer">
+            <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
                 disabled={!isButtonEnabled}
-                className="btn btn-primary"
+                className="btn btn-dark btn-lg px-5"
               >
                 {apiProgress ? <Spinner text="Yükleniyor..." /> : "Kayıt Ol"}
               </button>

@@ -46,11 +46,13 @@ function Index() {
     <>
       <div className="container">
         <div className="col-lg-8 offset-lg-2">
-          <form className="card" onSubmit={handleSubmit}>
-            <div className="text-center card-header">
-              <h1>Belge Yükle</h1>
+          <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
+            <div className="text-center card-header bg-secondary text-white py-4">
+              <h1 className="mb-0">
+                <i className="bi bi-file-earmark-text me-2"></i>Belge Yükle
+              </h1>
             </div>
-            <div className="card-body">
+            <div className="card-body p-4">
               <InputField
                 id="ad"
                 label="Belge Adı"
@@ -95,11 +97,11 @@ function Index() {
                 ></textarea>
               </div>
             </div>
-            <div className="text-center card-footer">
+            <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
                 disabled={!isButtonEnabled}
-                className="btn btn-primary"
+                className="btn btn-secondary btn-lg px-5"
               >
                 {apiProgress ? (
                   <Spinner text="Yükleniyor..." />

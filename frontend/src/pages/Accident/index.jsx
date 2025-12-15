@@ -49,11 +49,14 @@ function Index() {
     <>
       <div className="container">
         <div className="col-lg-8 offset-lg-2">
-          <form className="card" onSubmit={handleSubmit}>
-            <div className="text-center card-header">
-              <h1>İş Kazası Raporla</h1>
+          <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
+            <div className="text-center card-header bg-danger text-white py-4">
+              <h1 className="mb-0">
+                <i className="bi bi-exclamation-triangle me-2"></i>İş Kazası
+                Raporla
+              </h1>
             </div>
-            <div className="card-body">
+            <div className="card-body p-4">
               <InputField
                 id="tarih"
                 label="Tarih"
@@ -101,11 +104,11 @@ function Index() {
                 onChange={(e) => setEmployeeId(e.target.value)}
               />
             </div>
-            <div className="text-center card-footer">
+            <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
                 disabled={!isButtonEnabled}
-                className="btn btn-primary"
+                className="btn btn-danger btn-lg px-5"
               >
                 {apiProgress ? (
                   <Spinner text="Gönderiliyor..." />
