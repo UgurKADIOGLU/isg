@@ -1,5 +1,6 @@
 package com.isg.ws.Accident;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.isg.ws.Employee.Employee;
 import jakarta.persistence.*;
 

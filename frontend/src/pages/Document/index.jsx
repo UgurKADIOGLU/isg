@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createDocument } from "./api";
@@ -53,7 +53,7 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="ad"
                 label="Belge Adı"
                 type="text"
@@ -77,7 +77,7 @@ function Index() {
                   <option value="rapor">Rapor</option>
                 </select>
               </div>
-              <InputField
+              <Input
                 id="dosyaYolu"
                 label="Dosya Yolu"
                 type="file"

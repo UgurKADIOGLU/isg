@@ -1,57 +1,69 @@
-// src/main/java/com/isg/ws/Accident/AccidentController.java
 package com.isg.ws.Accident;
 
 import com.isg.ws.Accident.DTO.AccidentDto;
-import com.isg.ws.Employee.Employee;
-import com.isg.ws.Employee.EmployeeRepository;
+import com.isg.ws.Error.ApiError;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/accidents")
 public class AccidentController {
 
-    private final AccidentRepository accidentRepository;
-    private final EmployeeRepository employeeRepository;
+    private final AccidentService accidentService;
 
-    public AccidentController(AccidentRepository accidentRepository, EmployeeRepository employeeRepository) {
-        this.accidentRepository = accidentRepository;
-        this.employeeRepository = employeeRepository;
+    public AccidentController(AccidentService accidentService) {
+        this.accidentService = accidentService;
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Void> create(@RequestBody AccidentDto dto) {
-        Accident a = new Accident();
-        a.setTarih(dto.getTarih());
-        a.setAciklama(dto.getAciklama());
-        a.setFotoUrl(dto.getFotoUrl());
-        a.setKokNedenAnalizi(dto.getKokNedenAnalizi());
+    public ResponseEntity<Accident> create(@Valid @RequestBody AccidentDto dto) {
+        return accidentService.create(dto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
 
-        if (dto.getEmployeeId() != null) {
-            Optional<Employee> emp = employeeRepository.findById(dto.getEmployeeId());
-            if (emp.isEmpty()) {
-                return ResponseEntity.badRequest().build();
-            }
-            a.setEmployee(emp.get());
-        }
-
-        accidentRepository.save(a);
-        return ResponseEntity.noContent().build(); // 204
+    @PutMapping(value = "/{id}", consumes = "application/json")
+    public ResponseEntity<Accident> update(@PathVariable Long id, @RequestBody AccidentDto dto) {
+        return accidentService.update(id, dto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public List<Accident> list() {
-        return accidentRepository.findAll();
+    public ResponseEntity<List<Accident>> list() {
+        return ResponseEntity.ok(accidentService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Accident> get(@PathVariable Long id) {
-        return accidentRepository.findById(id)
+        return accidentService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (accidentService.delete(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/accidents");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        for (var fieldError : ex.getBindingResult().getFieldErrors()) {
+            apiError.getValidationErrors().put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
+        return ResponseEntity.badRequest().body(apiError);
     }
 }
 

@@ -1,5 +1,8 @@
 package com.isg.ws.Employee;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.isg.ws.Accident.Accident;
 import com.isg.ws.Training.Training;
 import jakarta.persistence.*;
@@ -21,11 +24,14 @@ public class Employee {
 
     private String pozisyon;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate iseGirisTarihi;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate saglikRaporTarihi;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Accident> accidents;
 
     @ManyToMany(mappedBy = "katilimcilar")

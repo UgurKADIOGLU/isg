@@ -1,5 +1,6 @@
 package com.isg.ws.Training;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.isg.ws.Employee.Employee;
 import jakarta.persistence.*;
 
@@ -16,6 +17,7 @@ public class Training {
 
     private String egitmen;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate tarih;
 
     private boolean sertifikaVerildi;

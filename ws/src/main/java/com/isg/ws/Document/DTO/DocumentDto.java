@@ -1,4 +1,38 @@
 package com.isg.ws.Document.DTO;
+import com.isg.ws.Document.Document;
 
 public class DocumentDto {
+    private String ad;
+    private String tur;
+    private String dosyaYolu;
+    private String aciklama;
+
+    public String getAd() { return ad; }
+    public void setAd(String ad) { this.ad = ad; }
+
+    public String getTur() { return tur; }
+    public void setTur(String tur) { this.tur = tur; }
+
+    public String getDosyaYolu() { return dosyaYolu; }
+    public void setDosyaYolu(String dosyaYolu) { this.dosyaYolu = dosyaYolu; }
+
+    public String getAciklama() { return aciklama; }
+    public void setAciklama(String aciklama) { this.aciklama = aciklama; }
+
+    public Document toEntity() {
+        Document d = new Document();
+        d.setAd(this.ad);
+        d.setTur(this.tur);
+        d.setDosyaYolu(this.dosyaYolu);
+        d.setAciklama(this.aciklama);
+        return d;
+    }
+
+    public void updateEntity(Document d) {
+        d.setAd(this.ad);
+        d.setTur(this.tur);
+        d.setDosyaYolu(this.dosyaYolu);
+        d.setAciklama(this.aciklama);
+    }
 }
+

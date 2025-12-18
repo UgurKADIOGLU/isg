@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createAccident } from "./api";
@@ -12,15 +12,15 @@ function Index() {
   const [employeeId, setEmployeeId] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({});
 
-  const isButtonEnabled = tarih && aciklama && employeeId && !apiProgress;
+  const isButtonEnabled = tarih && employeeId && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
-    setErrorMessage("");
+    setErrorMessage({});
 
     try {
       const response = await createAccident({
@@ -38,7 +38,7 @@ function Index() {
       setKokNedenAnalizi("");
       setEmployeeId("");
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Bir hata oluştu");
+      setErrorMessage(error.response?.data?.validationErrors);
       console.error("Hata:", error);
     } finally {
       setApiProgress(false);
@@ -57,7 +57,7 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="tarih"
                 label="Tarih"
                 type="date"
@@ -68,18 +68,20 @@ function Index() {
                 <label htmlFor="aciklama" className="form-label">
                   Açıklama
                 </label>
-                <textarea
+                <Input
                   id="aciklama"
                   className="form-control"
                   rows="4"
                   value={aciklama}
                   onChange={(e) => setAciklama(e.target.value)}
-                ></textarea>
+                  error={errorMessage.aciklama}
+                  row="4"
+                ></Input>
               </div>
-              <InputField
+              <Input
                 id="fotoUrl"
                 label="Fotoğraf URL"
-                type="file"
+                type="url"
                 value={fotoUrl}
                 onChange={(e) => setFotoUrl(e.target.value)}
               />
@@ -96,7 +98,7 @@ function Index() {
                   placeholder="5N1K, Fishbone vb."
                 ></textarea>
               </div>
-              <InputField
+              <Input
                 id="employeeId"
                 label="Çalışan ID"
                 type="number"
@@ -119,11 +121,6 @@ function Index() {
               {successMessage && (
                 <div className="mt-3">
                   <Alert message={successMessage} type="success" />
-                </div>
-              )}
-              {errorMessage && (
-                <div className="mt-3">
-                  <Alert message={errorMessage} type="danger" />
                 </div>
               )}
             </div>

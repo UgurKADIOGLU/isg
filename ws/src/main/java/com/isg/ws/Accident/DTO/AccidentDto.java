@@ -1,9 +1,17 @@
 package com.isg.ws.Accident.DTO;
 
+
+
+import com.isg.ws.Accident.Accident;
+import com.isg.ws.Employee.Employee;
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class AccidentDto {
     private LocalDate tarih;
+    @NotBlank
     private String aciklama;
     private String fotoUrl;
     private String kokNedenAnalizi;
@@ -23,4 +31,23 @@ public class AccidentDto {
 
     public Long getEmployeeId() { return employeeId; }
     public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+
+    public Accident toEntity(Employee employee) {
+        Accident a = new Accident();
+        a.setTarih(this.tarih);
+        a.setAciklama(this.aciklama);
+        a.setFotoUrl(this.fotoUrl);
+        a.setKokNedenAnalizi(this.kokNedenAnalizi);
+        a.setEmployee(employee);
+        return a;
+    }
+
+    public void updateEntity(Accident a, Employee employee) {
+        a.setTarih(this.tarih);
+        a.setAciklama(this.aciklama);
+        a.setFotoUrl(this.fotoUrl);
+        a.setKokNedenAnalizi(this.kokNedenAnalizi);
+        a.setEmployee(employee);
+    }
 }
+

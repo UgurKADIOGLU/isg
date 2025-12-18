@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createTraining } from "./api";
@@ -63,21 +63,21 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="egitimAdi"
                 label="Eğitim Adı"
                 type="text"
                 value={egitimAdi}
                 onChange={(e) => setEgitimAdi(e.target.value)}
               />
-              <InputField
+              <Input
                 id="egitmen"
                 label="Eğitmen"
                 type="text"
                 value={egitmen}
                 onChange={(e) => setEgitmen(e.target.value)}
               />
-              <InputField
+              <Input
                 id="tarih"
                 label="Tarih"
                 type="date"

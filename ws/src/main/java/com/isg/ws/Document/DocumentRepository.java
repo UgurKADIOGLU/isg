@@ -1,4 +1,6 @@
 package com.isg.ws.Document;
 
-public interface DocumentRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DocumentRepository extends JpaRepository<Document, Long> {
 }

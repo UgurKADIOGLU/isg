@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createPeriodicCheck } from "./api";
@@ -63,7 +63,7 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="ekipmanAdi"
                 label="Ekipman Adı"
                 type="text"
@@ -89,14 +89,14 @@ function Index() {
                   <option value="Diğer">Diğer</option>
                 </select>
               </div>
-              <InputField
+              <Input
                 id="sonKontrolTarihi"
                 label="Son Kontrol Tarihi"
                 type="date"
                 value={sonKontrolTarihi}
                 onChange={(e) => setSonKontrolTarihi(e.target.value)}
               />
-              <InputField
+              <Input
                 id="birSonrakiKontrolTarihi"
                 label="Bir Sonraki Kontrol Tarihi"
                 type="date"

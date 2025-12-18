@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { registerUser } from "./api";
@@ -11,6 +11,7 @@ function Index() {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({});
 
   const isButtonEnabled =
     password && passwordRepeat && password === passwordRepeat && !apiProgress;
@@ -29,6 +30,7 @@ function Index() {
       setSuccessMessage(response.message);
       // Başarı durumunda yapılacak işlemler
     } catch (error) {
+      setErrorMessage(error.response?.data || "Bir hata oluştu");
       console.error("Hata:", error.response?.data || error.message);
       // Hata durumunda yapılacak işlemler
     } finally {
@@ -47,32 +49,36 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="username"
                 label="İsim"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                error={errorMessage.username}
               />
-              <InputField
+              <Input
                 id="email"
                 label="E-posta"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={errorMessage.email}
               />
-              <InputField
+              <Input
                 id="password"
                 label="Şifre"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                error={errorMessage.password}
               />
-              <InputField
+              <Input
                 id="passwordRepeat"
                 label="Şifreyi Tekrarlayınız"
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
+                error={errorMessage.passwordRepeat}
               />
             </div>
             <div className="text-center card-footer bg-light py-4">

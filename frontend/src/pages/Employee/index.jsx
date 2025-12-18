@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createEmployee } from "./api";
@@ -65,42 +65,42 @@ function Index() {
               </h1>
             </div>
             <div className="card-body p-4">
-              <InputField
+              <Input
                 id="adSoyad"
                 label="Ad Soyad"
                 type="text"
                 value={adSoyad}
                 onChange={(e) => setAdSoyad(e.target.value)}
               />
-              <InputField
+              <Input
                 id="tcKimlik"
                 label="TC Kimlik"
                 type="text"
                 value={tcKimlik}
                 onChange={(e) => setTcKimlik(e.target.value)}
               />
-              <InputField
+              <Input
                 id="departman"
                 label="Departman"
                 type="text"
                 value={departman}
                 onChange={(e) => setDepartman(e.target.value)}
               />
-              <InputField
+              <Input
                 id="pozisyon"
                 label="Pozisyon"
                 type="text"
                 value={pozisyon}
                 onChange={(e) => setPozisyon(e.target.value)}
               />
-              <InputField
+              <Input
                 id="iseGirisTarihi"
                 label="İşe Giriş Tarihi"
                 type="date"
                 value={iseGirisTarihi}
                 onChange={(e) => setIseGirisTarihi(e.target.value)}
               />
-              <InputField
+              <Input
                 id="saglikRaporTarihi"
                 label="Sağlık Rapor Tarihi"
                 type="date"

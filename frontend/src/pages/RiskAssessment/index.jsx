@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../../components/InputField/InputField";
+import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createRiskAssessment } from "./api";
@@ -175,7 +175,7 @@ function Index() {
                 ></textarea>
               </div>
 
-              <InputField
+              <Input
                 id="sorumluKisi"
                 label="Sorumlu Kişi"
                 type="text"
