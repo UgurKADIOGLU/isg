@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
@@ -11,15 +11,39 @@ function Index() {
   const [aciklama, setAciklama] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({});
 
-  const isButtonEnabled = ad && tur && dosyaYolu && !apiProgress;
+  //const isButtonEnabled = ad && tur && dosyaYolu && !apiProgress;
+
+  useEffect(() => {
+    if (errorMessage.ad) {
+      setErrorMessage((prev) => ({ ...prev, ad: "" }));
+    }
+  }, [ad]);
+
+  useEffect(() => {
+    if (errorMessage.tur) {
+      setErrorMessage((prev) => ({ ...prev, tur: "" }));
+    }
+  }, [tur]);
+
+  useEffect(() => {
+    if (errorMessage.dosyaYolu) {
+      setErrorMessage((prev) => ({ ...prev, dosyaYolu: "" }));
+    }
+  }, [dosyaYolu]);
+
+  useEffect(() => {
+    if (errorMessage.aciklama) {
+      setErrorMessage((prev) => ({ ...prev, aciklama: "" }));
+    }
+  }, [aciklama]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
-    setErrorMessage("");
+    setErrorMessage({});
 
     try {
       const response = await createDocument({
@@ -35,7 +59,7 @@ function Index() {
       setDosyaYolu("");
       setAciklama("");
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Bir hata oluştu");
+      setErrorMessage(error.response?.data?.validationErrors || {});
       console.error("Hata:", error);
     } finally {
       setApiProgress(false);
@@ -59,6 +83,7 @@ function Index() {
                 type="text"
                 value={ad}
                 onChange={(e) => setAd(e.target.value)}
+                error={errorMessage.ad}
               />
               <div className="mb-3">
                 <label htmlFor="tur" className="form-label">
@@ -66,41 +91,45 @@ function Index() {
                 </label>
                 <select
                   id="tur"
-                  className="form-select"
+                  className={
+                    errorMessage.tur ? "form-select is-invalid" : "form-select"
+                  }
                   value={tur}
                   onChange={(e) => setTur(e.target.value)}
                 >
                   <option value="">-- Belge Türü Seçin --</option>
                   <option value="talimat">Talimat</option>
-                  <option value="prosedür">Prosedür</option>
+                  <option value="prosür">Prosür</option>
                   <option value="tutanak">Tutanak</option>
                   <option value="rapor">Rapor</option>
                 </select>
+                {errorMessage.tur && (
+                  <div className="invalid-feedback d-block">
+                    {errorMessage.tur}
+                  </div>
+                )}
               </div>
               <Input
                 id="dosyaYolu"
                 label="Dosya Yolu"
-                type="file"
+                type="url"
                 value={dosyaYolu}
                 onChange={(e) => setDosyaYolu(e.target.value)}
+                error={errorMessage.dosyaYolu}
               />
-              <div className="mb-3">
-                <label htmlFor="aciklama" className="form-label">
-                  Açıklama
-                </label>
-                <textarea
-                  id="aciklama"
-                  className="form-control"
-                  rows="3"
-                  value={aciklama}
-                  onChange={(e) => setAciklama(e.target.value)}
-                ></textarea>
-              </div>
+              <Input
+                id="aciklama"
+                label="Açıklama"
+                rows={3}
+                value={aciklama}
+                onChange={(e) => setAciklama(e.target.value)}
+                error={errorMessage.aciklama}
+              />
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                //disabled={!isButtonEnabled}
                 className="btn btn-secondary btn-lg px-5"
               >
                 {apiProgress ? (
@@ -112,11 +141,6 @@ function Index() {
               {successMessage && (
                 <div className="mt-3">
                   <Alert message={successMessage} type="success" />
-                </div>
-              )}
-              {errorMessage && (
-                <div className="mt-3">
-                  <Alert message={errorMessage} type="danger" />
                 </div>
               )}
             </div>

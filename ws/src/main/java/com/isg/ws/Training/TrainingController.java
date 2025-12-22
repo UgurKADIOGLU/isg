@@ -1,7 +1,10 @@
 package com.isg.ws.Training;
 
+import com.isg.ws.Error.ApiError;
 import com.isg.ws.Training.DTO.TrainingDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class TrainingController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Training> create(@RequestBody TrainingDto dto) {
+    public ResponseEntity<Training> create(@Valid @RequestBody TrainingDto dto) {
         return trainingService.create(dto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().build());
@@ -49,5 +52,16 @@ public class TrainingController {
         }
         return ResponseEntity.notFound().build();
     }
-}
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/trainings");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        for (var fieldError : ex.getBindingResult().getFieldErrors()) {
+            apiError.getValidationErrors().put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
 
+        return ResponseEntity.badRequest().body(apiError);
+    }
+}

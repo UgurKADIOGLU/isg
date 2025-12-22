@@ -1,14 +1,29 @@
 package com.isg.ws.RiskAssessment.DTO;
 
 import com.isg.ws.RiskAssessment.RiskAssessment;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class RiskAssessmentDto {
+    @NotBlank
     private String tehlikeTanimi;
+
+    @NotNull
     private int olasilik;
+
+    @NotNull
     private int siddet;
+
+    @NotNull
     private int riskSkoru;
+
+    @NotBlank
     private String mevcutOnlemler;
+
+    @NotBlank
     private String ilaveOnlemler;
+
+    @NotBlank
     private String sorumluKisi;
 
     public String getTehlikeTanimi() {
@@ -89,4 +104,3 @@ public class RiskAssessmentDto {
         riskAssessment.setSorumluKisi(this.sorumluKisi);
     }
 }
-

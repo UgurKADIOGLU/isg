@@ -1,10 +1,19 @@
 package com.isg.ws.Document.DTO;
 import com.isg.ws.Document.Document;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class DocumentDto {
+    @NotBlank
     private String ad;
+
+    @NotBlank
     private String tur;
+
+    @NotBlank
     private String dosyaYolu;
+
+    @NotBlank
     private String aciklama;
 
     public String getAd() { return ad; }

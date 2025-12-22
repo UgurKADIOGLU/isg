@@ -27,7 +27,7 @@ public class AccidentController {
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Accident> update(@PathVariable Long id, @RequestBody AccidentDto dto) {
+    public ResponseEntity<Accident> update(@PathVariable Long id, @Valid @RequestBody AccidentDto dto) {
         return accidentService.update(id, dto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

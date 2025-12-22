@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
@@ -11,15 +11,40 @@ function Index() {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState({});
+  const [errors, setErrors] = useState({});
 
-  const isButtonEnabled =
-    password && passwordRepeat && password === passwordRepeat && !apiProgress;
+  useEffect(() => {
+    if (errors.username) {
+      setErrors((prev) => ({ ...prev, username: "" }));
+    }
+  }, [username]);
+
+  useEffect(() => {
+    if (errors.email) {
+      setErrors((prev) => ({ ...prev, email: "" }));
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (errors.password) {
+      setErrors((prev) => ({ ...prev, password: "" }));
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (errors.passwordRepeat) {
+      setErrors((prev) => ({ ...prev, passwordRepeat: "" }));
+    }
+  }, [passwordRepeat]);
+
+  // const isButtonEnabled =
+  // password && passwordRepeat && password === passwordRepeat && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
+    setErrors({});
 
     try {
       const response = await registerUser({
@@ -30,7 +55,7 @@ function Index() {
       setSuccessMessage(response.message);
       // Başarı durumunda yapılacak işlemler
     } catch (error) {
-      setErrorMessage(error.response?.data || "Bir hata oluştu");
+      setErrors(error.response?.data?.validationErrors || {});
       console.error("Hata:", error.response?.data || error.message);
       // Hata durumunda yapılacak işlemler
     } finally {
@@ -54,7 +79,7 @@ function Index() {
                 label="İsim"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                error={errorMessage.username}
+                error={errors.username}
               />
               <Input
                 id="email"
@@ -62,7 +87,7 @@ function Index() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                error={errorMessage.email}
+                error={errors.email}
               />
               <Input
                 id="password"
@@ -70,7 +95,7 @@ function Index() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                error={errorMessage.password}
+                error={errors.password}
               />
               <Input
                 id="passwordRepeat"
@@ -78,13 +103,13 @@ function Index() {
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
-                error={errorMessage.passwordRepeat}
+                error={errors.passwordRepeat}
               />
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                // disabled={!isButtonEnabled}
                 className="btn btn-dark btn-lg px-5"
               >
                 {apiProgress ? <Spinner text="Yükleniyor..." /> : "Kayıt Ol"}

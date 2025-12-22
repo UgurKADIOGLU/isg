@@ -1,7 +1,10 @@
 package com.isg.ws.Document;
 
 import com.isg.ws.Document.DTO.DocumentDto;
+import com.isg.ws.Error.ApiError;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +20,15 @@ public class DocumentController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<Document> create(@RequestBody DocumentDto dto) {
-        return ResponseEntity.ok(documentService.create(dto));
+    public ResponseEntity<Document> create(@Valid @RequestBody DocumentDto dto) {
+        return documentService.create(dto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
+
     @PutMapping(value = "/{id}", consumes = "application/json")
-    public ResponseEntity<Document> update(@PathVariable Long id, @RequestBody DocumentDto dto) {
+    public ResponseEntity<Document> update(@PathVariable Long id, @Valid @RequestBody DocumentDto dto) {
         return documentService.update(id, dto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -46,5 +52,17 @@ public class DocumentController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/documents");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        for (var fieldError : ex.getBindingResult().getFieldErrors()) {
+            apiError.getValidationErrors().put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
+        return ResponseEntity.badRequest().body(apiError);
     }
 }

@@ -3,18 +3,29 @@ package com.isg.ws.Training.DTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.isg.ws.Employee.Employee;
 import com.isg.ws.Training.Training;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class TrainingDto {
+    @NotBlank
     private String egitimAdi;
+
+    @NotBlank
     private String egitmen;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate tarih;
 
+    @NotNull
     private boolean sertifikaVerildi;
+
+
+    @Size(min = 1, message = "Katılımcı listesi boş olamaz")
     private List<Long> katilimciIds; // Employee ID'leri
 
     public String getEgitimAdi() {
@@ -75,4 +86,3 @@ public class TrainingDto {
         training.setKatilimcilar(katilimcilar);
     }
 }
-

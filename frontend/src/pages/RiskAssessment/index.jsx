@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
@@ -15,14 +15,51 @@ function Index() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const isButtonEnabled =
+  useEffect(() => {
+    if (errors.tehlikeTanimi) {
+      setErrors((prev) => ({ ...prev, tehlikeTanimi: "" }));
+    }
+  }, [tehlikeTanimi]);
+
+  useEffect(() => {
+    if (errors.olasilik) {
+      setErrors((prev) => ({ ...prev, olasilik: "" }));
+    }
+  }, [olasilik]);
+
+  useEffect(() => {
+    if (errors.siddet) {
+      setErrors((prev) => ({ ...prev, siddet: "" }));
+    }
+  }, [siddet]);
+
+  useEffect(() => {
+    if (errors.mevcutOnlemler) {
+      setErrors((prev) => ({ ...prev, mevcutOnlemler: "" }));
+    }
+  }, [mevcutOnlemler]);
+
+  useEffect(() => {
+    if (errors.ilaveOnlemler) {
+      setErrors((prev) => ({ ...prev, ilaveOnlemler: "" }));
+    }
+  }, [ilaveOnlemler]);
+
+  useEffect(() => {
+    if (errors.sorumluKisi) {
+      setErrors((prev) => ({ ...prev, sorumluKisi: "" }));
+    }
+  }, [sorumluKisi]);
+
+  /*const isButtonEnabled =
     tehlikeTanimi &&
     olasilik &&
     siddet &&
     mevcutOnlemler &&
     sorumluKisi &&
-    !apiProgress;
+    !apiProgress;*/
 
   const handleOlasIlIkChange = (value) => {
     setOlasilik(value);
@@ -44,6 +81,7 @@ function Index() {
     setApiProgress(true);
     setSuccessMessage("");
     setErrorMessage("");
+    setErrors({});
 
     try {
       const response = await createRiskAssessment({
@@ -65,7 +103,7 @@ function Index() {
       setIlaveOnlemler("");
       setSorumluKisi("");
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Bir hata oluştu");
+      setErrors(error.response?.data?.validationErrors || {});
       console.error("Hata:", error);
     } finally {
       setApiProgress(false);
@@ -90,11 +128,20 @@ function Index() {
                 </label>
                 <textarea
                   id="tehlikeTanimi"
-                  className="form-control"
+                  className={
+                    errors.tehlikeTanimi
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
                   rows="3"
                   value={tehlikeTanimi}
                   onChange={(e) => setTehlikeTanimi(e.target.value)}
                 ></textarea>
+                {errors.tehlikeTanimi && (
+                  <div className="invalid-feedback d-block">
+                    {errors.tehlikeTanimi}
+                  </div>
+                )}
               </div>
 
               <div className="row">
@@ -105,7 +152,11 @@ function Index() {
                     </label>
                     <select
                       id="olasilik"
-                      className="form-select"
+                      className={
+                        errors.olasilik
+                          ? "form-select is-invalid"
+                          : "form-select"
+                      }
                       value={olasilik}
                       onChange={(e) => handleOlasIlIkChange(e.target.value)}
                     >
@@ -116,6 +167,11 @@ function Index() {
                       <option value="4">4 - Yüksek</option>
                       <option value="5">5 - Çok Yüksek</option>
                     </select>
+                    {errors.olasilik && (
+                      <div className="invalid-feedback d-block">
+                        {errors.olasilik}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -125,17 +181,24 @@ function Index() {
                     </label>
                     <select
                       id="siddet"
-                      className="form-select"
+                      className={
+                        errors.siddet ? "form-select is-invalid" : "form-select"
+                      }
                       value={siddet}
                       onChange={(e) => handleSiddeetChange(e.target.value)}
                     >
-                      <option value="">-- Şiddet Seçin --</option>
+                      <option value="">— Şiddet Seçin --</option>
                       <option value="1">1 - Hafif</option>
                       <option value="2">2 - Orta</option>
                       <option value="3">3 - Ciddi</option>
                       <option value="4">4 - Çok Ciddi</option>
                       <option value="5">5 - Ölümcül</option>
                     </select>
+                    {errors.siddet && (
+                      <div className="invalid-feedback d-block">
+                        {errors.siddet}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -155,11 +218,20 @@ function Index() {
                 </label>
                 <textarea
                   id="mevcutOnlemler"
-                  className="form-control"
+                  className={
+                    errors.mevcutOnlemler
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
                   rows="3"
                   value={mevcutOnlemler}
                   onChange={(e) => setMevcutOnlemler(e.target.value)}
                 ></textarea>
+                {errors.mevcutOnlemler && (
+                  <div className="invalid-feedback d-block">
+                    {errors.mevcutOnlemler}
+                  </div>
+                )}
               </div>
 
               <div className="mb-3">
@@ -168,11 +240,20 @@ function Index() {
                 </label>
                 <textarea
                   id="ilaveOnlemler"
-                  className="form-control"
+                  className={
+                    errors.ilaveOnlemler
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
                   rows="3"
                   value={ilaveOnlemler}
                   onChange={(e) => setIlaveOnlemler(e.target.value)}
                 ></textarea>
+                {errors.ilaveOnlemler && (
+                  <div className="invalid-feedback d-block">
+                    {errors.ilaveOnlemler}
+                  </div>
+                )}
               </div>
 
               <Input
@@ -181,12 +262,13 @@ function Index() {
                 type="text"
                 value={sorumluKisi}
                 onChange={(e) => setSorumluKisi(e.target.value)}
+                error={errors.sorumluKisi}
               />
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                //disabled={!isButtonEnabled}
                 className="btn btn-warning btn-lg px-5"
               >
                 {apiProgress ? (

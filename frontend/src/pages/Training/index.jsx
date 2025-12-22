@@ -14,6 +14,31 @@ function Index() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (errors.egitimAdi) {
+      setErrors((prev) => ({ ...prev, egitimAdi: "" }));
+    }
+  }, [egitimAdi]);
+
+  useEffect(() => {
+    if (errors.egitmen) {
+      setErrors((prev) => ({ ...prev, egitmen: "" }));
+    }
+  }, [egitmen]);
+
+  useEffect(() => {
+    if (errors.tarih) {
+      setErrors((prev) => ({ ...prev, tarih: "" }));
+    }
+  }, [tarih]);
+
+  useEffect(() => {
+    if (errors.katilimciIds) {
+      setErrors((prev) => ({ ...prev, katilimciIds: "" }));
+    }
+  }, [katilimcilar]);
 
   useEffect(() => {
     fetchEmployees();
@@ -21,13 +46,14 @@ function Index() {
 
   const fetchEmployees = async () => {};
 
-  const isButtonEnabled = egitimAdi && egitmen && tarih && !apiProgress;
+  //const isButtonEnabled = egitimAdi && egitmen && tarih && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
     setErrorMessage("");
+    setErrors({});
 
     try {
       const response = await createTraining({
@@ -45,7 +71,7 @@ function Index() {
       setSertifikaVerildi(false);
       setKatilimcilar([]);
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Bir hata oluştu");
+      setErrors(error.response?.data?.validationErrors || {});
       console.error("Hata:", error);
     } finally {
       setApiProgress(false);
@@ -69,6 +95,7 @@ function Index() {
                 type="text"
                 value={egitimAdi}
                 onChange={(e) => setEgitimAdi(e.target.value)}
+                error={errors.egitimAdi}
               />
               <Input
                 id="egitmen"
@@ -76,6 +103,7 @@ function Index() {
                 type="text"
                 value={egitmen}
                 onChange={(e) => setEgitmen(e.target.value)}
+                error={errors.egitmen}
               />
               <Input
                 id="tarih"
@@ -83,6 +111,7 @@ function Index() {
                 type="date"
                 value={tarih}
                 onChange={(e) => setTarih(e.target.value)}
+                error={errors.tarih}
               />
               <div className="mb-3">
                 <div className="form-check">
@@ -108,12 +137,17 @@ function Index() {
                 <small className="text-muted">
                   Seçilen: {katilimcilar.length} kişi
                 </small>
+                {errors.katilimciIds && (
+                  <div className="invalid-feedback d-block">
+                    {errors.katilimciIds}
+                  </div>
+                )}
               </div>
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                //disabled={!isButtonEnabled}
                 className="btn btn-primary btn-lg px-5"
               >
                 {apiProgress ? <Spinner text="Ekleniyor..." /> : "Eğitimi Ekle"}

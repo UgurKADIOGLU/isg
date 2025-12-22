@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
@@ -13,20 +13,52 @@ function Index() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const isButtonEnabled =
+  useEffect(() => {
+    if (errors.ekipmanAdi) {
+      setErrors((prev) => ({ ...prev, ekipmanAdi: "" }));
+    }
+  }, [ekipmanAdi]);
+
+  useEffect(() => {
+    if (errors.kategori) {
+      setErrors((prev) => ({ ...prev, kategori: "" }));
+    }
+  }, [kategori]);
+
+  useEffect(() => {
+    if (errors.sonKontrolTarihi) {
+      setErrors((prev) => ({ ...prev, sonKontrolTarihi: "" }));
+    }
+  }, [sonKontrolTarihi]);
+
+  useEffect(() => {
+    if (errors.birSonrakiKontrolTarihi) {
+      setErrors((prev) => ({ ...prev, birSonrakiKontrolTarihi: "" }));
+    }
+  }, [birSonrakiKontrolTarihi]);
+
+  useEffect(() => {
+    if (errors.durum) {
+      setErrors((prev) => ({ ...prev, durum: "" }));
+    }
+  }, [durum]);
+
+  /*const isButtonEnabled =
     ekipmanAdi &&
     kategori &&
     sonKontrolTarihi &&
     birSonrakiKontrolTarihi &&
     durum &&
-    !apiProgress;
+    !apiProgress;*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
     setErrorMessage("");
+    setErrors({});
 
     try {
       const response = await createPeriodicCheck({
@@ -44,7 +76,7 @@ function Index() {
       setBirSonrakiKontrolTarihi("");
       setDurum("");
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Bir hata oluştu");
+      setErrors(error.response?.data?.validationErrors || {});
       console.error("Hata:", error);
     } finally {
       setApiProgress(false);
@@ -69,6 +101,7 @@ function Index() {
                 type="text"
                 value={ekipmanAdi}
                 onChange={(e) => setEkipmanAdi(e.target.value)}
+                error={errors.ekipmanAdi}
               />
               <div className="mb-3">
                 <label htmlFor="kategori" className="form-label">
@@ -76,7 +109,9 @@ function Index() {
                 </label>
                 <select
                   id="kategori"
-                  className="form-select"
+                  className={
+                    errors.kategori ? "form-select is-invalid" : "form-select"
+                  }
                   value={kategori}
                   onChange={(e) => setKategori(e.target.value)}
                 >
@@ -88,6 +123,11 @@ function Index() {
                   <option value="Merdiven">Merdiven</option>
                   <option value="Diğer">Diğer</option>
                 </select>
+                {errors.kategori && (
+                  <div className="invalid-feedback d-block">
+                    {errors.kategori}
+                  </div>
+                )}
               </div>
               <Input
                 id="sonKontrolTarihi"
@@ -95,6 +135,7 @@ function Index() {
                 type="date"
                 value={sonKontrolTarihi}
                 onChange={(e) => setSonKontrolTarihi(e.target.value)}
+                error={errors.sonKontrolTarihi}
               />
               <Input
                 id="birSonrakiKontrolTarihi"
@@ -102,6 +143,7 @@ function Index() {
                 type="date"
                 value={birSonrakiKontrolTarihi}
                 onChange={(e) => setBirSonrakiKontrolTarihi(e.target.value)}
+                error={errors.birSonrakiKontrolTarihi}
               />
               <div className="mb-3">
                 <label htmlFor="durum" className="form-label">
@@ -109,7 +151,9 @@ function Index() {
                 </label>
                 <select
                   id="durum"
-                  className="form-select"
+                  className={
+                    errors.durum ? "form-select is-invalid" : "form-select"
+                  }
                   value={durum}
                   onChange={(e) => setDurum(e.target.value)}
                 >
@@ -119,12 +163,15 @@ function Index() {
                   <option value="Bakım Beklemede">Bakım Beklemede</option>
                   <option value="Hizmet Dışı">Hizmet Dışı</option>
                 </select>
+                {errors.durum && (
+                  <div className="invalid-feedback d-block">{errors.durum}</div>
+                )}
               </div>
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                //disabled={!isButtonEnabled}
                 className="btn btn-info btn-lg px-5"
               >
                 {apiProgress ? <Spinner text="Ekleniyor..." /> : "Kontrol Ekle"}

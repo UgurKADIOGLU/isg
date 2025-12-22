@@ -2,19 +2,27 @@ package com.isg.ws.PeriodicCheck.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.isg.ws.PeriodicCheck.PeriodicCheck;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public class PeriodicCheckDto {
+    @NotBlank
     private String ekipmanAdi;
+
+    @NotBlank
     private String kategori;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate sonKontrolTarihi;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birSonrakiKontrolTarihi;
 
+    @NotBlank
     private String durum;
 
     public String getEkipmanAdi() {

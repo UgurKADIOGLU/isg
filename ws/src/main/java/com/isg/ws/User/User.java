@@ -2,6 +2,7 @@ package com.isg.ws.User;
 
 import com.isg.ws.Role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Set;
 
@@ -12,14 +13,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Kullanıcı adı boş olamaz")
     private String username;
 
     private String password;
 
+    @NotBlank(message = "Email boş olamaz")
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private Set<Role> role;
 
     public Long getId() {
         return id;
@@ -53,11 +56,11 @@ public class User {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Set<Role> roles) {
+        this.role = roles;
     }
 }

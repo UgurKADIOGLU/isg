@@ -5,16 +5,25 @@ package com.isg.ws.Accident.DTO;
 import com.isg.ws.Accident.Accident;
 import com.isg.ws.Employee.Employee;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 public class AccidentDto {
+    @NotNull(message = "Tarih boş olamaz")
     private LocalDate tarih;
-    @NotBlank
+
+    @NotBlank(message = "Açıklama boş olamaz")
     private String aciklama;
+
+    @NotBlank(message = "Fotoğraf URL boş olamaz")
     private String fotoUrl;
+
+    @NotBlank(message = "Kök neden analizi boş olamaz")
     private String kokNedenAnalizi;
+
+    @NotNull(message = "Çalışan ID boş olamaz")
     private Long employeeId;
 
     public LocalDate getTarih() { return tarih; }

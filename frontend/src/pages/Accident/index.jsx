@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
@@ -14,7 +14,37 @@ function Index() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState({});
 
-  const isButtonEnabled = tarih && employeeId && !apiProgress;
+  useEffect(() => {
+    if (errorMessage.tarih) {
+      setErrorMessage((prev) => ({ ...prev, tarih: "" }));
+    }
+  }, [tarih]);
+
+  useEffect(() => {
+    if (errorMessage.aciklama) {
+      setErrorMessage((prev) => ({ ...prev, aciklama: "" }));
+    }
+  }, [aciklama]);
+
+  useEffect(() => {
+    if (errorMessage.fotoUrl) {
+      setErrorMessage((prev) => ({ ...prev, fotoUrl: "" }));
+    }
+  }, [fotoUrl]);
+
+  useEffect(() => {
+    if (errorMessage.kokNedenAnalizi) {
+      setErrorMessage((prev) => ({ ...prev, kokNedenAnalizi: "" }));
+    }
+  }, [kokNedenAnalizi]);
+
+  useEffect(() => {
+    if (errorMessage.employeeId) {
+      setErrorMessage((prev) => ({ ...prev, employeeId: "" }));
+    }
+  }, [employeeId]);
+
+  //const isButtonEnabled = tarih && employeeId && !apiProgress;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,53 +93,46 @@ function Index() {
                 type="date"
                 value={tarih}
                 onChange={(e) => setTarih(e.target.value)}
+                error={errorMessage.tarih}
               />
-              <div className="mb-3">
-                <label htmlFor="aciklama" className="form-label">
-                  Açıklama
-                </label>
-                <Input
-                  id="aciklama"
-                  className="form-control"
-                  rows="4"
-                  value={aciklama}
-                  onChange={(e) => setAciklama(e.target.value)}
-                  error={errorMessage.aciklama}
-                  row="4"
-                ></Input>
-              </div>
+              <Input
+                id="aciklama"
+                label="Açıklama"
+                row={4}
+                value={aciklama}
+                onChange={(e) => setAciklama(e.target.value)}
+                error={errorMessage.aciklama}
+              />
               <Input
                 id="fotoUrl"
                 label="Fotoğraf URL"
                 type="url"
                 value={fotoUrl}
                 onChange={(e) => setFotoUrl(e.target.value)}
+                error={errorMessage.fotoUrl}
               />
-              <div className="mb-3">
-                <label htmlFor="kokNedenAnalizi" className="form-label">
-                  Kök Neden Analizi
-                </label>
-                <textarea
-                  id="kokNedenAnalizi"
-                  className="form-control"
-                  rows="3"
-                  value={kokNedenAnalizi}
-                  onChange={(e) => setKokNedenAnalizi(e.target.value)}
-                  placeholder="5N1K, Fishbone vb."
-                ></textarea>
-              </div>
+              <Input
+                id="kokNedenAnalizi"
+                label="Kök Neden Analizi"
+                row={3}
+                value={kokNedenAnalizi}
+                onChange={(e) => setKokNedenAnalizi(e.target.value)}
+                placeholder="5N1K, Fishbone vb."
+                error={errorMessage.kokNedenAnalizi}
+              />
               <Input
                 id="employeeId"
                 label="Çalışan ID"
                 type="number"
                 value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
+                error={errorMessage.employeeId}
               />
             </div>
             <div className="text-center card-footer bg-light py-4">
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                //disabled={!isButtonEnabled}
                 className="btn btn-danger btn-lg px-5"
               >
                 {apiProgress ? (

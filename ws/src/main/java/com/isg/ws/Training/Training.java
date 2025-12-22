@@ -3,6 +3,8 @@ package com.isg.ws.Training;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.isg.ws.Employee.Employee;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,15 +15,19 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Eğitim adı boş olamaz")
     private String egitimAdi;
 
+    @NotBlank(message = "Eğitmen adı boş olamaz")
     private String egitmen;
 
+    @NotNull(message = "Tarih boş olamaz")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate tarih;
 
     private boolean sertifikaVerildi;
 
+    @NotNull(message = "Katılımcılar boş olamaz")
     @ManyToMany
     @JoinTable(
             name = "training_participants",

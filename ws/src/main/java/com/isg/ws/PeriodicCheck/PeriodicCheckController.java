@@ -1,7 +1,10 @@
 package com.isg.ws.PeriodicCheck;
 
+import com.isg.ws.Error.ApiError;
 import com.isg.ws.PeriodicCheck.DTO.PeriodicCheckDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class PeriodicCheckController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<PeriodicCheck> create(@RequestBody PeriodicCheckDto dto) {
+    public ResponseEntity<PeriodicCheck> create(@Valid @RequestBody PeriodicCheckDto dto) {
         return ResponseEntity.ok(periodicCheckService.create(dto));
     }
 
@@ -46,6 +49,18 @@ public class PeriodicCheckController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/documents");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        for (var fieldError : ex.getBindingResult().getFieldErrors()) {
+            apiError.getValidationErrors().put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
+        return ResponseEntity.badRequest().body(apiError);
     }
 }
 

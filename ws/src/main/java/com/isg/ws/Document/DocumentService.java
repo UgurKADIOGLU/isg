@@ -15,8 +15,13 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public Document create(DocumentDto dto) {
-        return documentRepository.save(dto.toEntity());
+    public Optional<Document> create(DocumentDto dto) {
+        try {
+            Document saved = documentRepository.save(dto.toEntity());
+            return Optional.of(saved);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<Document> update(Long id, DocumentDto dto) {
