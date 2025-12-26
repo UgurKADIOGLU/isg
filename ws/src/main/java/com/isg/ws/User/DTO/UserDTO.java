@@ -2,6 +2,7 @@ package com.isg.ws.User.DTO;
 
 import com.isg.ws.Role.Role;
 import com.isg.ws.User.User;
+import com.isg.ws.User.validation.UniqueEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,26 +11,18 @@ import java.util.Set;
 
 public class UserDTO {
 
-    @NotNull
-    private Long id;
-
     @NotBlank
     private String username;
 
     @Email
     @NotBlank
+    @UniqueEmail
     private String email;
 
-    @NotBlank
+    private String password;
+
+
     private Set<Role> role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -55,9 +48,17 @@ public class UserDTO {
         this.role = role;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User toEntity() {
         User user = new User();
-        user.setId(this.id);
+user.setPassword(this.password);
         user.setUsername(this.username);
         user.setEmail(this.email);
         user.setRole(this.role);
@@ -65,7 +66,7 @@ public class UserDTO {
     }
 
     public void updateEntity(User user) {
-        user.setId(this.id);
+
         user.setUsername(this.username);
         user.setEmail(this.email);
         user.setRole(this.role);

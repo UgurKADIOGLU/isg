@@ -103,7 +103,11 @@ function Index() {
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
-                error={errors.passwordRepeat}
+                error={
+                  passwordRepeat && password !== passwordRepeat
+                    ? "Şifreler eşleşmiyor"
+                    : ""
+                }
               />
             </div>
             <div className="text-center card-footer bg-light py-4">

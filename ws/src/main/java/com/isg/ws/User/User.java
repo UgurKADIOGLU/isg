@@ -13,12 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Kullanıcı adı boş olamaz")
+
     private String username;
 
     private String password;
 
-    @NotBlank(message = "Email boş olamaz")
+
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
