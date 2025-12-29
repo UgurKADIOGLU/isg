@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD})
 @Retention(RUNTIME)
 public @interface UniqueEmail {
-    String message() default "Email zaten kullanılıyor";
+    String message() default "{hoaxify.constraints.email.inuse}";
 
     Class<?>[] groups() default { };
 

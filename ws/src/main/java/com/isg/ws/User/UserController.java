@@ -40,16 +40,7 @@ public class UserController {
         return ResponseEntity.badRequest().body(apiError);
     }
 
-    @ExceptionHandler(NotUniqueEmailException.class)
-    ResponseEntity<ApiError> handleNotUniqueEmailException(NotUniqueEmailException ex) {
-        ApiError apiError = new ApiError();
-        apiError.setPath("/api/users");
-        apiError.setMessage("Validation error: Email must be unique");
-        Map<String,String> validationErrors = new HashMap<>();
-        validationErrors.put("email", "Email must be unique");
-        apiError.setStatus(400);
-        return ResponseEntity.badRequest().body(apiError);
-    }
+
 }
 
 

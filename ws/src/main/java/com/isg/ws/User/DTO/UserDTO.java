@@ -11,10 +11,10 @@ import java.util.Set;
 
 public class UserDTO {
 
-    @NotBlank
+    @NotBlank(message = "{hoaxify.constraints.username.notblank}")
     private String username;
 
-    @Email
+    //@Email
     @NotBlank
     @UniqueEmail
     private String email;
