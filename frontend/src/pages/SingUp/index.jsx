@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { registerUser } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -70,20 +72,21 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-dark text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-person-add me-2"></i>Kayıt Ol
+                <i className="bi bi-person-add me-2"></i>
+                {t("singUp")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="username"
-                label="İsim"
+                label={t("name")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 error={errors.username}
               />
               <Input
                 id="email"
-                label="E-posta"
+                label={t("email")}
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +94,7 @@ function Index() {
               />
               <Input
                 id="password"
-                label="Şifre"
+                label={t("password")}
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +102,7 @@ function Index() {
               />
               <Input
                 id="passwordRepeat"
-                label="Şifreyi Tekrarlayınız"
+                label={t("repeatPassword")}
                 type="password"
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
@@ -116,7 +119,7 @@ function Index() {
                 // disabled={!isButtonEnabled}
                 className="btn btn-dark btn-lg px-5"
               >
-                {apiProgress ? <Spinner text="Yükleniyor..." /> : "Kayıt Ol"}
+                {apiProgress ? <Spinner text="Yükleniyor..." /> : t("singUp")}
               </button>
               {successMessage && (
                 <div className="mt-3">
