@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createRiskAssessment } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [tehlikeTanimi, setTehlikeTanimi] = useState("");
   const [olasilik, setOlasilik] = useState("");
   const [siddet, setSiddet] = useState("");
@@ -117,14 +119,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-warning text-dark py-4">
               <h1 className="mb-0">
-                <i className="bi bi-shield-exclamation me-2"></i>Risk
-                Değerlendirmesi
+                <i className="bi bi-shield-exclamation me-2"></i>
+                {t("riskAssessmentTitle")}
               </h1>
             </div>
             <div className="card-body p-4">
               <div className="mb-3">
                 <label htmlFor="tehlikeTanimi" className="form-label">
-                  Tehlike Tanımı
+                  {t("hazardDefinition")}
                 </label>
                 <textarea
                   id="tehlikeTanimi"
@@ -148,7 +150,7 @@ function Index() {
                 <div className="col-md-6">
                   <div className="mb-3">
                     <label htmlFor="olasilik" className="form-label">
-                      Olasılık (1-5)
+                      {t("probability")}
                     </label>
                     <select
                       id="olasilik"
@@ -160,12 +162,12 @@ function Index() {
                       value={olasilik}
                       onChange={(e) => handleOlasIlIkChange(e.target.value)}
                     >
-                      <option value="">-- Olasılık Seçin --</option>
-                      <option value="1">1 - Çok Düşük</option>
-                      <option value="2">2 - Düşük</option>
-                      <option value="3">3 - Orta</option>
-                      <option value="4">4 - Yüksek</option>
-                      <option value="5">5 - Çok Yüksek</option>
+                      <option value="">{t("selectProbability")}</option>
+                      <option value="1">{t("veryLow")}</option>
+                      <option value="2">{t("low")}</option>
+                      <option value="3">{t("medium")}</option>
+                      <option value="4">{t("high")}</option>
+                      <option value="5">{t("veryHigh")}</option>
                     </select>
                     {errors.olasilik && (
                       <div className="invalid-feedback d-block">
@@ -177,7 +179,7 @@ function Index() {
                 <div className="col-md-6">
                   <div className="mb-3">
                     <label htmlFor="siddet" className="form-label">
-                      Şiddet (1-5)
+                      {t("severity")}
                     </label>
                     <select
                       id="siddet"
@@ -187,12 +189,12 @@ function Index() {
                       value={siddet}
                       onChange={(e) => handleSiddeetChange(e.target.value)}
                     >
-                      <option value="">— Şiddet Seçin --</option>
-                      <option value="1">1 - Hafif</option>
-                      <option value="2">2 - Orta</option>
-                      <option value="3">3 - Ciddi</option>
-                      <option value="4">4 - Çok Ciddi</option>
-                      <option value="5">5 - Ölümcül</option>
+                      <option value="">{t("selectSeverity")}</option>
+                      <option value="1">{t("light")}</option>
+                      <option value="2">{t("moderate")}</option>
+                      <option value="3">{t("serious")}</option>
+                      <option value="4">{t("verySeriou")}</option>
+                      <option value="5">{t("fatal")}</option>
                     </select>
                     {errors.siddet && (
                       <div className="invalid-feedback d-block">
@@ -205,16 +207,16 @@ function Index() {
 
               <div className="mb-3">
                 <label className="form-label fw-bold">
-                  Risk Skoru: {riskSkoru}
+                  {t("riskScore")}: {riskSkoru}
                 </label>
                 <div className="alert alert-info" role="alert">
-                  Risk Skoru otomatik olarak hesaplanır (Olasılık × Şiddet)
+                  {t("riskScoreInfo")}
                 </div>
               </div>
 
               <div className="mb-3">
                 <label htmlFor="mevcutOnlemler" className="form-label">
-                  Mevcut Önlemler
+                  {t("existingMeasures")}
                 </label>
                 <textarea
                   id="mevcutOnlemler"
@@ -236,7 +238,7 @@ function Index() {
 
               <div className="mb-3">
                 <label htmlFor="ilaveOnlemler" className="form-label">
-                  İlave Önlemler
+                  {t("additionalMeasures")}
                 </label>
                 <textarea
                   id="ilaveOnlemler"
@@ -258,7 +260,7 @@ function Index() {
 
               <Input
                 id="sorumluKisi"
-                label="Sorumlu Kişi"
+                label={t("responsiblePerson")}
                 type="text"
                 value={sorumluKisi}
                 onChange={(e) => setSorumluKisi(e.target.value)}
@@ -272,9 +274,9 @@ function Index() {
                 className="btn btn-warning btn-lg px-5"
               >
                 {apiProgress ? (
-                  <Spinner text="Kaydediliyor..." />
+                  <Spinner text={t("saving")} />
                 ) : (
-                  "Değerlendirmeyi Kaydet"
+                  t("saveAssessmentButton")
                 )}
               </button>
               {successMessage && (

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createEmployee } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [adSoyad, setAdSoyad] = useState("");
   const [tcKimlik, setTcKimlik] = useState("");
   const [departman, setDepartman] = useState("");
@@ -99,13 +101,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-success text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-person-plus me-2"></i>Çalışan Ekle
+                <i className="bi bi-person-plus me-2"></i>
+                {t("addEmployee")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="adSoyad"
-                label="Ad Soyad"
+                label={t("fullName")}
                 type="text"
                 value={adSoyad}
                 onChange={(e) => setAdSoyad(e.target.value)}
@@ -113,7 +116,7 @@ function Index() {
               />
               <Input
                 id="tcKimlik"
-                label="TC Kimlik"
+                label={t("tcIdentity")}
                 type="text"
                 value={tcKimlik}
                 onChange={(e) => setTcKimlik(e.target.value)}
@@ -121,7 +124,7 @@ function Index() {
               />
               <Input
                 id="departman"
-                label="Departman"
+                label={t("department")}
                 type="text"
                 value={departman}
                 onChange={(e) => setDepartman(e.target.value)}
@@ -129,7 +132,7 @@ function Index() {
               />
               <Input
                 id="pozisyon"
-                label="Pozisyon"
+                label={t("position")}
                 type="text"
                 value={pozisyon}
                 onChange={(e) => setPozisyon(e.target.value)}
@@ -137,7 +140,7 @@ function Index() {
               />
               <Input
                 id="iseGirisTarihi"
-                label="İşe Giriş Tarihi"
+                label={t("startDate")}
                 type="date"
                 value={iseGirisTarihi}
                 onChange={(e) => setIseGirisTarihi(e.target.value)}
@@ -145,7 +148,7 @@ function Index() {
               />
               <Input
                 id="saglikRaporTarihi"
-                label="Sağlık Rapor Tarihi"
+                label={t("healthReportDate")}
                 type="date"
                 value={saglikRaporTarihi}
                 onChange={(e) => setSaglikRaporTarihi(e.target.value)}
@@ -158,7 +161,11 @@ function Index() {
                 //disabled={!isButtonEnabled}
                 className="btn btn-success btn-lg px-5"
               >
-                {apiProgress ? <Spinner text="Ekleniyor..." /> : "Çalışan Ekle"}
+                {apiProgress ? (
+                  <Spinner text={t("adding")} />
+                ) : (
+                  t("addEmployeeButton")
+                )}
               </button>
               {successMessage && (
                 <div className="mt-3">

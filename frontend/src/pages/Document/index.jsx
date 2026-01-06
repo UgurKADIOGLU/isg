@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createDocument } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [ad, setAd] = useState("");
   const [tur, setTur] = useState("");
   const [dosyaYolu, setDosyaYolu] = useState("");
@@ -73,13 +75,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-secondary text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-file-earmark-text me-2"></i>Belge Yükle
+                <i className="bi bi-file-earmark-text me-2"></i>
+                {t("uploadDocument")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="ad"
-                label="Belge Adı"
+                label={t("documentName")}
                 type="text"
                 value={ad}
                 onChange={(e) => setAd(e.target.value)}
@@ -87,7 +90,7 @@ function Index() {
               />
               <div className="mb-3">
                 <label htmlFor="tur" className="form-label">
-                  Belge Türü
+                  {t("documentType")}
                 </label>
                 <select
                   id="tur"
@@ -97,11 +100,11 @@ function Index() {
                   value={tur}
                   onChange={(e) => setTur(e.target.value)}
                 >
-                  <option value="">-- Belge Türü Seçin --</option>
-                  <option value="talimat">Talimat</option>
-                  <option value="prosür">Prosür</option>
-                  <option value="tutanak">Tutanak</option>
-                  <option value="rapor">Rapor</option>
+                  <option value="">{t("selectDocumentType")}</option>
+                  <option value="talimat">{t("instruction")}</option>
+                  <option value="prosür">{t("procedure")}</option>
+                  <option value="tutanak">{t("minutes")}</option>
+                  <option value="rapor">{t("report")}</option>
                 </select>
                 {errorMessage.tur && (
                   <div className="invalid-feedback d-block">
@@ -111,7 +114,7 @@ function Index() {
               </div>
               <Input
                 id="dosyaYolu"
-                label="Dosya Yolu"
+                label={t("filePath")}
                 type="url"
                 value={dosyaYolu}
                 onChange={(e) => setDosyaYolu(e.target.value)}
@@ -119,7 +122,7 @@ function Index() {
               />
               <Input
                 id="aciklama"
-                label="Açıklama"
+                label={t("description")}
                 rows={3}
                 value={aciklama}
                 onChange={(e) => setAciklama(e.target.value)}
@@ -133,9 +136,9 @@ function Index() {
                 className="btn btn-secondary btn-lg px-5"
               >
                 {apiProgress ? (
-                  <Spinner text="Yükleniyor..." />
+                  <Spinner text={t("uploading")} />
                 ) : (
-                  "Belgeyi Yükle"
+                  t("uploadDocumentButton")
                 )}
               </button>
               {successMessage && (

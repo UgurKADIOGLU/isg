@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createTraining } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [egitimAdi, setEgitimAdi] = useState("");
   const [egitmen, setEgitmen] = useState("");
   const [tarih, setTarih] = useState("");
@@ -85,13 +87,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-primary text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-book me-2"></i>Eğitim Ekle
+                <i className="bi bi-book me-2"></i>
+                {t("addTraining")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="egitimAdi"
-                label="Eğitim Adı"
+                label={t("trainingName")}
                 type="text"
                 value={egitimAdi}
                 onChange={(e) => setEgitimAdi(e.target.value)}
@@ -99,7 +102,7 @@ function Index() {
               />
               <Input
                 id="egitmen"
-                label="Eğitmen"
+                label={t("instructor")}
                 type="text"
                 value={egitmen}
                 onChange={(e) => setEgitmen(e.target.value)}
@@ -107,7 +110,7 @@ function Index() {
               />
               <Input
                 id="tarih"
-                label="Tarih"
+                label={t("date")}
                 type="date"
                 value={tarih}
                 onChange={(e) => setTarih(e.target.value)}
@@ -126,16 +129,17 @@ function Index() {
                     htmlFor="sertifikaVerildi"
                     className="form-check-label"
                   >
-                    Sertifika Verildi
+                    {t("certificateIssued")}
                   </label>
                 </div>
               </div>
 
               <div className="mb-3">
-                <label className="form-label">Katılımcılar</label>
+                <label className="form-label">{t("participants")}</label>
 
                 <small className="text-muted">
-                  Seçilen: {katilimcilar.length} kişi
+                  {t("selectedParticipants")}: {katilimcilar.length}{" "}
+                  {t("people")}
                 </small>
                 {errors.katilimciIds && (
                   <div className="invalid-feedback d-block">
@@ -150,7 +154,11 @@ function Index() {
                 //disabled={!isButtonEnabled}
                 className="btn btn-primary btn-lg px-5"
               >
-                {apiProgress ? <Spinner text="Ekleniyor..." /> : "Eğitimi Ekle"}
+                {apiProgress ? (
+                  <Spinner text={t("adding")} />
+                ) : (
+                  t("addTrainingButton")
+                )}
               </button>
               {successMessage && (
                 <div className="mt-3">

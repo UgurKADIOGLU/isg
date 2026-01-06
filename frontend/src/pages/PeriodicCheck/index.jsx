@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createPeriodicCheck } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [ekipmanAdi, setEkipmanAdi] = useState("");
   const [kategori, setKategori] = useState("");
   const [sonKontrolTarihi, setSonKontrolTarihi] = useState("");
@@ -90,14 +92,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-info text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-clipboard-check me-2"></i>Periyodik Kontrol
-                Ekle
+                <i className="bi bi-clipboard-check me-2"></i>
+                {t("addPeriodicCheck")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="ekipmanAdi"
-                label="Ekipman Adı"
+                label={t("equipmentName")}
                 type="text"
                 value={ekipmanAdi}
                 onChange={(e) => setEkipmanAdi(e.target.value)}
@@ -105,7 +107,7 @@ function Index() {
               />
               <div className="mb-3">
                 <label htmlFor="kategori" className="form-label">
-                  Kategori
+                  {t("category")}
                 </label>
                 <select
                   id="kategori"
@@ -115,13 +117,13 @@ function Index() {
                   value={kategori}
                   onChange={(e) => setKategori(e.target.value)}
                 >
-                  <option value="">-- Kategori Seçin --</option>
-                  <option value="Basınçlı Kap">Basınçlı Kap</option>
-                  <option value="Kaldırma Aracı">Kaldırma Aracı</option>
-                  <option value="Vinç">Vinç</option>
-                  <option value="Forklift">Forklift</option>
-                  <option value="Merdiven">Merdiven</option>
-                  <option value="Diğer">Diğer</option>
+                  <option value="">{t("selectCategory")}</option>
+                  <option value="Basınçlı Kap">{t("pressurizedVessel")}</option>
+                  <option value="Kaldırma Aracı">{t("liftingTool")}</option>
+                  <option value="Vinç">{t("crane")}</option>
+                  <option value="Forklift">{t("forklift")}</option>
+                  <option value="Merdiven">{t("ladder")}</option>
+                  <option value="Diğer">{t("other")}</option>
                 </select>
                 {errors.kategori && (
                   <div className="invalid-feedback d-block">
@@ -131,7 +133,7 @@ function Index() {
               </div>
               <Input
                 id="sonKontrolTarihi"
-                label="Son Kontrol Tarihi"
+                label={t("lastCheckDate")}
                 type="date"
                 value={sonKontrolTarihi}
                 onChange={(e) => setSonKontrolTarihi(e.target.value)}
@@ -139,7 +141,7 @@ function Index() {
               />
               <Input
                 id="birSonrakiKontrolTarihi"
-                label="Bir Sonraki Kontrol Tarihi"
+                label={t("nextCheckDate")}
                 type="date"
                 value={birSonrakiKontrolTarihi}
                 onChange={(e) => setBirSonrakiKontrolTarihi(e.target.value)}
@@ -147,7 +149,7 @@ function Index() {
               />
               <div className="mb-3">
                 <label htmlFor="durum" className="form-label">
-                  Durum
+                  {t("status")}
                 </label>
                 <select
                   id="durum"
@@ -157,11 +159,13 @@ function Index() {
                   value={durum}
                   onChange={(e) => setDurum(e.target.value)}
                 >
-                  <option value="">-- Durum Seçin --</option>
-                  <option value="Uygun">Uygun</option>
-                  <option value="Uygun Değil">Uygun Değil</option>
-                  <option value="Bakım Beklemede">Bakım Beklemede</option>
-                  <option value="Hizmet Dışı">Hizmet Dışı</option>
+                  <option value="">{t("selectStatus")}</option>
+                  <option value="Uygun">{t("suitable")}</option>
+                  <option value="Uygun Değil">{t("unsuitable")}</option>
+                  <option value="Bakım Beklemede">
+                    {t("maintenancePending")}
+                  </option>
+                  <option value="Hizmet Dışı">{t("outOfService")}</option>
                 </select>
                 {errors.durum && (
                   <div className="invalid-feedback d-block">{errors.durum}</div>
@@ -174,7 +178,11 @@ function Index() {
                 //disabled={!isButtonEnabled}
                 className="btn btn-info btn-lg px-5"
               >
-                {apiProgress ? <Spinner text="Ekleniyor..." /> : "Kontrol Ekle"}
+                {apiProgress ? (
+                  <Spinner text={t("adding")} />
+                ) : (
+                  t("addCheckButton")
+                )}
               </button>
               {successMessage && (
                 <div className="mt-3">

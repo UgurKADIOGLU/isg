@@ -10,6 +10,7 @@ import PeriodicCheck from "./pages/PeriodicCheck";
 import Document from "./pages/Document";
 import SignUp from "./pages/SingUp";
 import "./App.css";
+import LanguageSelector from "./components/LanguageSelector";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/document" element={<Document />} />
             <Route path="/signup" element={<SignUp />} />
           </Routes>
+          <LanguageSelector />
         </main>
         <Footer />
       </div>

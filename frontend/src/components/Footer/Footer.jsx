@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 function Footer() {
+  const { t } = useTranslation();
   return (
     <footer
       className="text-white mt-2 py-2"
@@ -11,50 +13,48 @@ function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-md-4">
-            <h5>İSG Yönetim Sistemi</h5>
-            <p className="text-muted">
-              İş Sağlığı ve Güvenliği süreçlerinizi dijital ortamda yönetin.
-            </p>
+            <h5>{t("systemTitle")}</h5>
+            <p className="text-muted">{t("description")}</p>
           </div>
           <div className="col-md-4">
-            <h5>Hızlı Erişim</h5>
+            <h5>{t("quickAccess")}</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
                 <a href="/employee" className="text-muted text-decoration-none">
-                  Çalışanlar
+                  {t("employees")}
                 </a>
               </li>
               <li className="mb-2">
                 <a href="/training" className="text-muted text-decoration-none">
-                  Eğitimler
+                  {t("trainings")}
                 </a>
               </li>
               <li className="mb-2">
                 <a href="/accident" className="text-muted text-decoration-none">
-                  İş Kazaları
+                  {t("workAccidents")}
                 </a>
               </li>
               <li className="mb-2">
                 <a href="/document" className="text-muted text-decoration-none">
-                  Belgeler
+                  {t("documents")}
                 </a>
               </li>
             </ul>
           </div>
           <div className="col-md-4">
-            <h5>İletişim</h5>
+            <h5>{t("contact")}</h5>
             <ul className="list-unstyled text-muted">
               <li className="mb-2">
                 <i className="bi bi-envelope me-2"></i>
-                info@isg.com
+                {t("email_contact")}
               </li>
               <li className="mb-2">
                 <i className="bi bi-telephone me-2"></i>
-                +90 (212) 123 45 67
+                {t("phone")}
               </li>
               <li className="mb-2">
                 <i className="bi bi-geo-alt me-2"></i>
-                İstanbul, Türkiye
+                {t("location")}
               </li>
             </ul>
           </div>
@@ -63,8 +63,7 @@ function Footer() {
         <div className="row">
           <div className="col text-center text-muted">
             <p className="mb-0">
-              &copy; {new Date().getFullYear()} İSG Yönetim Sistemi. Tüm hakları
-              saklıdır.
+              {t("copyright").replace("{year}", new Date().getFullYear())}
             </p>
           </div>
         </div>

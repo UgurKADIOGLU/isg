@@ -108,7 +108,7 @@ function Index() {
                 onChange={(e) => setPasswordRepeat(e.target.value)}
                 error={
                   passwordRepeat && password !== passwordRepeat
-                    ? "Şifreler eşleşmiyor"
+                    ? t("passwordMismatch")
                     : ""
                 }
               />
@@ -119,7 +119,7 @@ function Index() {
                 // disabled={!isButtonEnabled}
                 className="btn btn-dark btn-lg px-5"
               >
-                {apiProgress ? <Spinner text="Yükleniyor..." /> : t("singUp")}
+                {apiProgress ? <Spinner text={t("loading")} /> : t("singUp")}
               </button>
               {successMessage && (
                 <div className="mt-3">

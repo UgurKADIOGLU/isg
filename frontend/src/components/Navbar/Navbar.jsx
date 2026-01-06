@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+  const { t } = useTranslation();
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark"
@@ -12,7 +14,7 @@ function Navbar() {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <i className="bi bi-shield-check me-2"></i>
-          İSG Yönetim Sistemi
+          {t("systemTitle")}
         </Link>
         <button
           className="navbar-toggler"
@@ -29,37 +31,37 @@ function Navbar() {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/employee">
-                Çalışanlar
+                {t("employees")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/training">
-                Eğitimler
+                {t("trainings")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/accident">
-                İş Kazaları
+                {t("workAccidents")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/risk-assessment">
-                Risk Değerlendirme
+                {t("riskAssessment")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/periodic-check">
-                Periyodik Kontrol
+                {t("periodicCheck")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/document">
-                Belgeler
+                {t("documents")}
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/signup">
-                Kayıt Ol
+                {t("singUp")}
               </Link>
             </li>
           </ul>
