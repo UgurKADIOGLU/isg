@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import Input from "../../components/InputField/InputField";
 import Spinner from "../../components/Spinner";
 import Alert from "../../components/Alert";
 import { createAccident } from "./api";
 
 function Index() {
+  const { t } = useTranslation();
   const [tarih, setTarih] = useState("");
   const [aciklama, setAciklama] = useState("");
   const [fotoUrl, setFotoUrl] = useState("");
@@ -82,14 +84,14 @@ function Index() {
           <form className="card shadow-lg border-0" onSubmit={handleSubmit}>
             <div className="text-center card-header bg-danger text-white py-4">
               <h1 className="mb-0">
-                <i className="bi bi-exclamation-triangle me-2"></i>İş Kazası
-                Raporla
+                <i className="bi bi-exclamation-triangle me-2"></i>
+                {t("reportAccident")}
               </h1>
             </div>
             <div className="card-body p-4">
               <Input
                 id="tarih"
-                label="Tarih"
+                label={t("date")}
                 type="date"
                 value={tarih}
                 onChange={(e) => setTarih(e.target.value)}
@@ -97,7 +99,7 @@ function Index() {
               />
               <Input
                 id="aciklama"
-                label="Açıklama"
+                label={t("description")}
                 row={4}
                 value={aciklama}
                 onChange={(e) => setAciklama(e.target.value)}
@@ -105,7 +107,7 @@ function Index() {
               />
               <Input
                 id="fotoUrl"
-                label="Fotoğraf URL"
+                label={t("photoUrl")}
                 type="url"
                 value={fotoUrl}
                 onChange={(e) => setFotoUrl(e.target.value)}
@@ -113,7 +115,7 @@ function Index() {
               />
               <Input
                 id="kokNedenAnalizi"
-                label="Kök Neden Analizi"
+                label={t("rootCauseAnalysis")}
                 row={3}
                 value={kokNedenAnalizi}
                 onChange={(e) => setKokNedenAnalizi(e.target.value)}
@@ -122,7 +124,7 @@ function Index() {
               />
               <Input
                 id="employeeId"
-                label="Çalışan ID"
+                label={t("employeeId")}
                 type="number"
                 value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
@@ -136,9 +138,9 @@ function Index() {
                 className="btn btn-danger btn-lg px-5"
               >
                 {apiProgress ? (
-                  <Spinner text="Gönderiliyor..." />
+                  <Spinner text={t("sending")} />
                 ) : (
-                  "Kazayı Raporla"
+                  t("reportAccidentButton")
                 )}
               </button>
               {successMessage && (
