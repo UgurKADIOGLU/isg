@@ -17,34 +17,24 @@ function Index() {
   const [errorMessage, setErrorMessage] = useState({});
 
   useEffect(() => {
-    if (errorMessage.tarih) {
-      setErrorMessage((prev) => ({ ...prev, tarih: "" }));
-    }
-  }, [tarih]);
+    setErrorMessage((prev) => ({ ...prev, tarih: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errorMessage.aciklama) {
-      setErrorMessage((prev) => ({ ...prev, aciklama: "" }));
-    }
-  }, [aciklama]);
+    setErrorMessage((prev) => ({ ...prev, aciklama: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errorMessage.fotoUrl) {
-      setErrorMessage((prev) => ({ ...prev, fotoUrl: "" }));
-    }
-  }, [fotoUrl]);
+    setErrorMessage((prev) => ({ ...prev, fotoUrl: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errorMessage.kokNedenAnalizi) {
-      setErrorMessage((prev) => ({ ...prev, kokNedenAnalizi: "" }));
-    }
-  }, [kokNedenAnalizi]);
+    setErrorMessage((prev) => ({ ...prev, kokNedenAnalizi: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errorMessage.employeeId) {
-      setErrorMessage((prev) => ({ ...prev, employeeId: "" }));
-    }
-  }, [employeeId]);
+    setErrorMessage((prev) => ({ ...prev, employeeId: "" }));
+  }, []);
 
   //const isButtonEnabled = tarih && employeeId && !apiProgress;
 

@@ -21,7 +21,6 @@ public class UserDTO {
 
     private String password;
 
-
     private Set<Role> role;
 
     public String getUsername() {

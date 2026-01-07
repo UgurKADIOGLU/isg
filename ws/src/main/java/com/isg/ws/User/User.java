@@ -18,11 +18,30 @@ public class User {
 
     private String password;
 
-
     private String email;
+
+    private String activationToken;
+
+    private boolean isActive;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> role;
+
+    public String getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(String activationToken) {
+        this.activationToken = activationToken;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
     public Long getId() {
         return id;

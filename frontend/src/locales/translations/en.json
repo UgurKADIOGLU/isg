@@ -22,7 +22,6 @@
   "copyright": "© {year} OSH Management System. All rights reserved.",
   "reportAccident": "Report Work Accident",
   "date": "Date",
-  "description": "Description",
   "photoUrl": "Photo URL",
   "rootCauseAnalysis": "Root Cause Analysis",
   "employeeId": "Employee ID",

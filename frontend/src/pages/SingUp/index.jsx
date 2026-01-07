@@ -16,28 +16,20 @@ function Index() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (errors.username) {
-      setErrors((prev) => ({ ...prev, username: "" }));
-    }
-  }, [username]);
+    setErrors((prev) => ({ ...prev, username: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errors.email) {
-      setErrors((prev) => ({ ...prev, email: "" }));
-    }
-  }, [email]);
+    setErrors((prev) => ({ ...prev, email: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errors.password) {
-      setErrors((prev) => ({ ...prev, password: "" }));
-    }
-  }, [password]);
+    setErrors((prev) => ({ ...prev, password: "" }));
+  }, []);
 
   useEffect(() => {
-    if (errors.passwordRepeat) {
-      setErrors((prev) => ({ ...prev, passwordRepeat: "" }));
-    }
-  }, [passwordRepeat]);
+    setErrors((prev) => ({ ...prev, passwordRepeat: "" }));
+  }, []);
 
   // const isButtonEnabled =
   // password && passwordRepeat && password === passwordRepeat && !apiProgress;
