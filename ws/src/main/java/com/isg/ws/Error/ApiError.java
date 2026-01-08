@@ -1,12 +1,10 @@
 package com.isg.ws.Error;
 
-import org.springframework.http.HttpStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 
 public class ApiError {
 
@@ -14,7 +12,9 @@ public class ApiError {
     private String message;
     private String path;
     private long timestamp=new Date().getTime();
-    private Map<String,String> validationErrors=new HashMap<>();
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Map<String,String> validationErrors = null;
+
 
     public long getTimestamp() {
         return timestamp;

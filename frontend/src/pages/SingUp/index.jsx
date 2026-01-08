@@ -13,23 +13,24 @@ function Index() {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [errors, setErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setErrors((prev) => ({ ...prev, username: "" }));
-  }, []);
+    setValidationErrors((prev) => ({ ...prev, username: "" }));
+  }, [username]);
 
   useEffect(() => {
-    setErrors((prev) => ({ ...prev, email: "" }));
-  }, []);
+    setValidationErrors((prev) => ({ ...prev, email: "" }));
+  }, [email]);
 
   useEffect(() => {
-    setErrors((prev) => ({ ...prev, password: "" }));
-  }, []);
+    setValidationErrors((prev) => ({ ...prev, password: "" }));
+  }, [password]);
 
   useEffect(() => {
-    setErrors((prev) => ({ ...prev, passwordRepeat: "" }));
-  }, []);
+    setValidationErrors((prev) => ({ ...prev, passwordRepeat: "" }));
+  }, [passwordRepeat]);
 
   // const isButtonEnabled =
   // password && passwordRepeat && password === passwordRepeat && !apiProgress;
@@ -38,7 +39,8 @@ function Index() {
     e.preventDefault();
     setApiProgress(true);
     setSuccessMessage("");
-    setErrors({});
+    setValidationErrors({});
+    setError("");
 
     try {
       const response = await registerUser({
@@ -49,8 +51,11 @@ function Index() {
       setSuccessMessage(response.message);
       // Başarı durumunda yapılacak işlemler
     } catch (error) {
-      setErrors(error.response?.data?.validationErrors || {});
-      console.error("Hata:", error.response?.data || error.message);
+      setValidationErrors(error.response?.data?.validationErrors || {});
+      if (error.response?.data?.status === 502) {
+        setError(error.response?.data?.message);
+      }
+
       // Hata durumunda yapılacak işlemler
     } finally {
       setApiProgress(false);
@@ -74,7 +79,7 @@ function Index() {
                 label={t("name")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                error={errors.username}
+                error={validationErrors.username}
               />
               <Input
                 id="email"
@@ -82,7 +87,7 @@ function Index() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                error={errors.email}
+                error={validationErrors.email}
               />
               <Input
                 id="password"
@@ -90,7 +95,7 @@ function Index() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                error={errors.password}
+                error={validationErrors.password}
               />
               <Input
                 id="passwordRepeat"
@@ -116,6 +121,11 @@ function Index() {
               {successMessage && (
                 <div className="mt-3">
                   <Alert message={successMessage} type="success" />
+                </div>
+              )}
+              {error && (
+                <div className="mt-3">
+                  <Alert message={error} type="danger" />
                 </div>
               )}
             </div>

@@ -3,19 +3,19 @@ package com.isg.ws.User;
 import com.isg.ws.Error.ApiError;
 import com.isg.ws.Exception.NotUniqueEmailException;
 import com.isg.ws.User.DTO.UserDTO;
+import com.isg.ws.User.Exception.ActivationNotificationException;
 import com.isg.ws.shared.GenericMessage;
 import com.isg.ws.shared.Messages;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -38,10 +38,11 @@ public class UserController {
         apiError.setPath("/api/users");
         apiError.setMessage(ex.getMessage());
         apiError.setStatus(400);
+        Map<String, String> validationErrors = new HashMap<>();
         for (var fieldError : ex.getBindingResult().getFieldErrors()) {
-            apiError.getValidationErrors().put(fieldError.getField(), fieldError.getDefaultMessage());
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
-
+        apiError.setValidationErrors(validationErrors);
         return ResponseEntity.badRequest().body(apiError);
     }
     @ExceptionHandler(NotUniqueEmailException.class)
@@ -52,6 +53,14 @@ public class UserController {
         apiError.setStatus(400);
         apiError.setValidationErrors(ex.getValidationErrors());
         return ResponseEntity.badRequest().body(apiError);
+    }
+    @ExceptionHandler(ActivationNotificationException.class)
+    ResponseEntity<ApiError> MailException(ActivationNotificationException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/users");
+        apiError.setMessage(ex.getMessage());
+        apiError.setStatus(502);
+        return ResponseEntity.status(502).body(apiError);
     }
 
 
