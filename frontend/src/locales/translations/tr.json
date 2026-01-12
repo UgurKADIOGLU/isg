@@ -96,5 +96,17 @@
   "participants": "Katılımcılar",
   "selectedParticipants": "Seçilen",
   "people": "kişi",
-  "addTrainingButton": "Eğitimi Ekle"
+  "addTrainingButton": "Eğitimi Ekle",
+  "home": {
+    "welcome": "İSG Yönetim Sistemine Hoş Geldiniz",
+    "description": "İş Sağlığı ve Güvenliği süreçlerinizi verimli ve güvenli bir şekilde yönetin",
+    "features": {
+      "safety": "Güvenlik Yönetimi",
+      "safetyDesc": "Kurumunuzdaki işyeri güvenliği, kazalar ve olayları tek bir merkezi platformda izleyin ve yönetin",
+      "compliance": "Mevzuata Uygunluk",
+      "complianceDesc": "İş sağlığı ve güvenliği düzenlemeleri ve standartlarına uyumu sağlayın",
+      "training": "Eğitim & Geliştirme",
+      "trainingDesc": "Çalışan eğitim programlarını ve sertifikalarını organize edin ve takip edin"
+    }
+  }
 }

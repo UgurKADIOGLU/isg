@@ -96,5 +96,17 @@
   "participants": "Participants",
   "selectedParticipants": "Selected",
   "people": "people",
-  "addTrainingButton": "Add Training"
+  "addTrainingButton": "Add Training",
+  "home": {
+    "welcome": "Welcome to OSH Management System",
+    "description": "Manage your Occupational Safety and Health processes efficiently and securely",
+    "features": {
+      "safety": "Safety Management",
+      "safetyDesc": "Monitor and manage workplace safety, accidents, and incidents in one centralized platform",
+      "compliance": "Regulatory Compliance",
+      "complianceDesc": "Ensure compliance with occupational safety regulations and standards",
+      "training": "Training & Development",
+      "trainingDesc": "Organize and track employee training programs and certifications"
+    }
+  }
 }

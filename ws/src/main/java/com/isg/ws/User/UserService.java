@@ -1,5 +1,6 @@
 package com.isg.ws.User;
 
+import com.isg.ws.Email.EmailService;
 import com.isg.ws.User.Exception.ActivationNotificationException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    EmailService emailService;
+
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional(rollbackOn = MailException.class)
@@ -28,30 +32,12 @@ public class UserService {
             user.setActivationToken(UUID.randomUUID().toString());
             user.setPassword(encodedPassword);
             userRepository.saveAndFlush(user);
-            sendActivationEmail(user);
+            emailService.sendActivationEmail(user.getEmail(), user.getActivationToken());
         }catch (MailException ex){
             throw new ActivationNotificationException();
         }
 
     }
 
-    private void sendActivationEmail(User user) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("ugrkadioglu@gmail.com");
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Account Activation");
-        mailMessage.setText("http://localhost:5173/activation/" + user.getActivationToken());
-        getMailSender().send(mailMessage);
-        // mailSender.send(mailMessage); // Uncomment this line when mailSender is configured
-    }
-    public JavaMailSender getMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.ethereal.email");
-        mailSender.setPort(587);
-        mailSender.setUsername("garnett35@ethereal.email");
-        mailSender.setPassword("F9YeYP1pHcJ7NncmMy-");
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.smtp.starttls.enable", "true");
-        return mailSender;
-    }
+
 }
